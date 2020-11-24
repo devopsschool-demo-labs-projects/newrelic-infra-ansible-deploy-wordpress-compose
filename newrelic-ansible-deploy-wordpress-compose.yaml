@@ -1,0 +1,20 @@
+---
+- name: newrelic agent setup  
+  hosts: all
+ 
+  tasks:
+    - script: agent-install.sh
+    - script: docker-install.sh
+    - script: install-docker-compose.sh
+    - copy:
+        src: newrelic-infra.yml
+        dest: /etc/newrelic-infra.yml
+    - copy:
+        src: docker-compose.yaml
+        dest: /root/docker-compose.yaml
+    - name: Setup a apps
+      command: docker-compose up -d
+      args:
+        chdir: /root/
+    - name: restart a nwrelic agent
+      command: sudo systemctl restart newrelic-infra

@@ -1,0 +1,6 @@
+---
+- name: newrelic agent setup  
+  hosts: all
+ 
+  tasks:
+    - script: agent-install.sh 
